@@ -446,3 +446,55 @@ Verification dashboard requise :
 ### Prochaine action
 
 Attendre propagation ou corriger la sauvegarde nameserver si GoDaddy affiche encore `domaincontrol.com`. Refaire le controle DNS avant de declarer le domaine public connecte.
+
+---
+
+## Recheck DNS propagation apres confirmation GoDaddy - 2026-05-24 23:31 CEST
+
+### Contexte
+
+GoDaddy indique maintenant "Using custom nameservers". Les nameservers Cloudflare attendus restent :
+
+- `dakota.ns.cloudflare.com`
+- `pola.ns.cloudflare.com`
+
+### DNS observe depuis Codex
+
+| Host | Type | Valeur observee | Statut |
+|---|---|---|---|
+| `driv-energy.com` | `NS` | `ns53.domaincontrol.com` | Ancien nameserver GoDaddy encore visible |
+| `driv-energy.com` | `NS` | `ns54.domaincontrol.com` | Ancien nameserver GoDaddy encore visible |
+| `driv-energy.com` | `A` | `13.248.243.5` | Ancien parking GoDaddy encore actif |
+| `driv-energy.com` | `A` | `76.223.105.230` | Ancien parking GoDaddy encore actif |
+| `www.driv-energy.com` | `CNAME` | `driv-energy.com` | `www` pointe encore vers l'apex |
+
+TTL observe sur les records GoDaddy : environ 2164 secondes au moment du controle.
+
+Tentative de verification via resolvers publics `1.1.1.1` et `8.8.8.8` : pas de reponse exploitable depuis l'environnement Codex.
+
+### Verification HTTP
+
+| URL | Statut observe | Interpretation |
+|---|---|---|
+| `https://drivenergy-drc.pages.dev/` | `200 OK`, `Server: cloudflare` | Deploiement temporaire Cloudflare Pages actif |
+| `https://driv-energy.com` | `200 OK`, `Server: DPS/2.0.0` | Le domaine sert encore la page GoDaddy |
+| `https://www.driv-energy.com` | `301` vers `https://driv-energy.com/`, `Server: DPS/2.0.0` | `www` redirige encore vers l'apex GoDaddy |
+
+### Conclusion
+
+Propagation Cloudflare non visible depuis ce point de controle. Meme si GoDaddy confirme l'utilisation de custom nameservers dans l'interface, les resolvers consultes par Codex voient encore `domaincontrol.com` et les anciens A records GoDaddy.
+
+### Custom domain
+
+Statut public : pas encore effectif.
+
+A verifier dans Cloudflare :
+
+1. La zone `driv-energy.com` doit etre active, pas en attente de nameserver update.
+2. Le projet Pages `drivenergy-drc` doit avoir `driv-energy.com` ajoute dans Custom domains.
+3. Le projet Pages `drivenergy-drc` doit avoir `www.driv-energy.com` ajoute dans Custom domains.
+4. Apres activation, `driv-energy.com` doit charger le meme site que `https://drivenergy-drc.pages.dev/`.
+
+### Prochaine action
+
+Attendre l'expiration du cache/TTL puis refaire les checks DNS. Si apres propagation les records restent identiques, verifier dans GoDaddy que les custom nameservers enregistres sont exactement `dakota.ns.cloudflare.com` et `pola.ns.cloudflare.com`, et verifier dans Cloudflare que la zone est active.
