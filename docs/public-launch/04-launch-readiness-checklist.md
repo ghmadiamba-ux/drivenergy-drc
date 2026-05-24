@@ -56,8 +56,8 @@ Les termes sensibles apparaissent uniquement comme exclusions ou prudence, pas c
 - [x] Build final passe le 2026-05-24.
 - [x] Preview public temporaire valide : `https://drivenergy-drc.pages.dev/`.
 - [x] Domaine choisi et achete : `driv-energy.com`.
-- [ ] DNS configure.
-- [ ] HTTPS actif.
+- [ ] DNS configure. Statut 2026-05-24 : propagation non effective, le domaine pointe encore vers GoDaddy/parking.
+- [ ] HTTPS actif sur domaine final. Statut 2026-05-24 : `driv-energy.com` et `www` affichent encore GoDaddy/Airo, pas DrivEnergy.
 - [ ] `driv-energy.com` ajoute comme custom domain Cloudflare Pages.
 - [ ] `www.driv-energy.com` ajoute comme custom domain Cloudflare Pages.
 - [ ] Canonicalisation choisie : apex vers www ou www vers apex.

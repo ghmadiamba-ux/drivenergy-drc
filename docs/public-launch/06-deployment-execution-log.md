@@ -262,3 +262,93 @@ Dans GoDaddy :
 - `https://driv-energy.com` : non actif pour DrivEnergy.
 - `https://www.driv-energy.com` : non actif pour DrivEnergy.
 - `https://drivenergy-drc.pages.dev/` : actif comme URL temporaire.
+
+---
+
+## Verification apres changement nameservers GoDaddy - 2026-05-24
+
+### Action fondateur declaree
+
+Le fondateur indique que les nameservers GoDaddy ont ete changes de :
+
+- `ns53.domaincontrol.com`
+- `ns54.domaincontrol.com`
+
+vers :
+
+- `dakota.ns.cloudflare.com`
+- `pola.ns.cloudflare.com`
+
+### Nameserver status observe depuis Codex
+
+Resolution locale actuelle :
+
+| Host | Type | Valeur observee |
+|---|---|---|
+| `driv-energy.com` | `NS` | `ns53.domaincontrol.com` |
+| `driv-energy.com` | `NS` | `ns54.domaincontrol.com` |
+
+Interpretation : la propagation nameserver n'est pas encore visible depuis l'environnement Codex local, ou le changement n'est pas encore effectif au niveau registre.
+
+### DNS records observes
+
+| Host | Type | Valeur observee | Interpretation |
+|---|---|---|---|
+| `driv-energy.com` | `A` | `13.248.243.5` | Ancien target GoDaddy/parking probable |
+| `driv-energy.com` | `A` | `76.223.105.230` | Ancien target GoDaddy/parking probable |
+| `www.driv-energy.com` | `CNAME` | `driv-energy.com` | `www` pointe encore vers apex GoDaddy |
+
+Les anciens records GoDaddy sont donc encore actifs depuis ce point de verification.
+
+### Verification visuelle domaines publics
+
+Test navigateur headless :
+
+- `https://driv-energy.com` charge encore une page GoDaddy/Airo "DRIVE ENERGY", pas le site DrivEnergy DRC.
+- `https://www.driv-energy.com` charge encore la meme page GoDaddy/Airo, pas le site DrivEnergy DRC.
+
+### Temporary URL
+
+- `https://drivenergy-drc.pages.dev/` reste l'URL publique temporaire valide du site DrivEnergy DRC.
+
+### Cloudflare custom domains
+
+Statut depuis Codex : impossible de confirmer l'ajout dans Cloudflare sans dashboard.
+
+Action requise dans Cloudflare :
+
+1. Ouvrir Workers & Pages.
+2. Ouvrir Pages project `drivenergy-drc`.
+3. Custom domains.
+4. Verifier/ajouter `driv-energy.com`.
+5. Verifier/ajouter `www.driv-energy.com`.
+6. Suivre les instructions exactes Cloudflare pour les records Pages.
+7. Verifier que la zone `driv-energy.com` est Active dans Cloudflare.
+
+### GoDaddy / Cloudflare propagation
+
+Action requise :
+
+- Attendre propagation DNS si le changement vient d'etre fait.
+- Verifier dans GoDaddy que les custom nameservers sauvegardes sont bien :
+  - `dakota.ns.cloudflare.com`
+  - `pola.ns.cloudflare.com`
+- Verifier dans Cloudflare que la zone `driv-energy.com` n'est plus en "pending nameserver update".
+
+### Public URL status
+
+- `https://driv-energy.com` : pas encore DrivEnergy DRC.
+- `https://www.driv-energy.com` : pas encore DrivEnergy DRC.
+- HTTPS sur GoDaddy fonctionne vers l'ancien contenu, mais pas vers Cloudflare Pages.
+
+### Prochaine verification
+
+Refaire les checks :
+
+- `Resolve-DnsName -Name driv-energy.com -Type NS`
+- `Resolve-DnsName -Name driv-energy.com -Type A`
+- `Resolve-DnsName -Name www.driv-energy.com -Type CNAME`
+- `https://driv-energy.com`
+- `https://www.driv-energy.com`
+
+Quand les NS deviennent `dakota.ns.cloudflare.com` et `pola.ns.cloudflare.com`, continuer la validation Cloudflare Pages/custom domains.
