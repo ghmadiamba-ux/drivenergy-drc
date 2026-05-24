@@ -352,3 +352,51 @@ Refaire les checks :
 - `https://www.driv-energy.com`
 
 Quand les NS deviennent `dakota.ns.cloudflare.com` et `pola.ns.cloudflare.com`, continuer la validation Cloudflare Pages/custom domains.
+
+---
+
+## Recheck DNS propagation - 2026-05-24
+
+### Nameserver status
+
+Expected Cloudflare nameservers :
+
+- `dakota.ns.cloudflare.com`
+- `pola.ns.cloudflare.com`
+
+Observed from Codex local resolver :
+
+| Host | Type | Valeur observee |
+|---|---|---|
+| `driv-energy.com` | `NS` | `ns53.domaincontrol.com` |
+| `driv-energy.com` | `NS` | `ns54.domaincontrol.com` |
+
+Conclusion : propagation Cloudflare non visible depuis ce point de verification.
+
+### DNS records
+
+| Host | Type | Valeur observee | Statut |
+|---|---|---|---|
+| `driv-energy.com` | `A` | `13.248.243.5` | Ancien GoDaddy/parking encore actif |
+| `driv-energy.com` | `A` | `76.223.105.230` | Ancien GoDaddy/parking encore actif |
+| `www.driv-energy.com` | `CNAME` | `driv-energy.com` | Pointe encore vers apex GoDaddy |
+
+### Public URL status
+
+Verification navigateur headless :
+
+- `https://driv-energy.com` : affiche encore GoDaddy/Airo, pas DrivEnergy.
+- `https://www.driv-energy.com` : non capturee dans ce cycle, mais DNS pointe encore vers apex GoDaddy.
+- `https://drivenergy-drc.pages.dev/` : charge bien DrivEnergy DRC, en francais, avec hero approuve visible.
+
+### Custom domain status
+
+Cloudflare dashboard non accessible depuis Codex. A verifier manuellement :
+
+- `driv-energy.com` ajoute comme custom domain du projet Pages `drivenergy-drc`.
+- `www.driv-energy.com` ajoute comme custom domain du projet Pages `drivenergy-drc`.
+- Zone `driv-energy.com` active dans Cloudflare, non bloquee en attente nameserver.
+
+### Next check
+
+Refaire les memes checks apres propagation. Tant que les NS observes restent `domaincontrol.com`, le domaine public ne peut pas etre valide comme connecte a Cloudflare Pages.
