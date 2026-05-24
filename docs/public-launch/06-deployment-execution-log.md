@@ -400,3 +400,49 @@ Cloudflare dashboard non accessible depuis Codex. A verifier manuellement :
 ### Next check
 
 Refaire les memes checks apres propagation. Tant que les NS observes restent `domaincontrol.com`, le domaine public ne peut pas etre valide comme connecte a Cloudflare Pages.
+
+---
+
+## Recheck DNS propagation HTTP/DNS - 2026-05-24 23:25 CEST
+
+### DNS observe
+
+Les nameservers Cloudflare attendus restent :
+
+- `dakota.ns.cloudflare.com`
+- `pola.ns.cloudflare.com`
+
+Resolution observee depuis l'environnement Codex :
+
+| Host | Type | Valeur observee | Statut |
+|---|---|---|---|
+| `driv-energy.com` | `NS` | `ns53.domaincontrol.com` | GoDaddy encore actif |
+| `driv-energy.com` | `NS` | `ns54.domaincontrol.com` | GoDaddy encore actif |
+| `driv-energy.com` | `A` | `13.248.243.5` | Ancien parking GoDaddy encore actif |
+| `driv-energy.com` | `A` | `76.223.105.230` | Ancien parking GoDaddy encore actif |
+| `www.driv-energy.com` | `CNAME` | `driv-energy.com` | Redirection vers apex GoDaddy |
+
+Conclusion : la propagation vers Cloudflare n'est pas encore visible depuis ce point de controle, ou la modification nameserver n'est pas encore effective au niveau registre/resolver.
+
+### Verification HTTP
+
+| URL | Statut HTTP observe | Interpretation |
+|---|---|---|
+| `https://drivenergy-drc.pages.dev/` | `200 OK`, serveur Cloudflare | Deploiement Pages temporaire actif |
+| `https://driv-energy.com` | `200 OK`, serveur `DPS/2.0.0` | Page GoDaddy encore servie |
+| `https://www.driv-energy.com` | `301` vers `https://driv-energy.com/`, serveur `DPS/2.0.0` | `www` redirige encore vers apex GoDaddy |
+
+### Custom domain
+
+Statut public : pas encore connecte a Cloudflare Pages.
+
+Verification dashboard requise :
+
+1. Cloudflare > Websites : confirmer que la zone `driv-energy.com` est active.
+2. Cloudflare > Workers & Pages > Pages > `drivenergy-drc` > Custom domains : verifier/ajouter `driv-energy.com`.
+3. Repeter pour `www.driv-energy.com`.
+4. Dans GoDaddy, confirmer que les custom nameservers sauvegardes sont exactement `dakota.ns.cloudflare.com` et `pola.ns.cloudflare.com`.
+
+### Prochaine action
+
+Attendre propagation ou corriger la sauvegarde nameserver si GoDaddy affiche encore `domaincontrol.com`. Refaire le controle DNS avant de declarer le domaine public connecte.
