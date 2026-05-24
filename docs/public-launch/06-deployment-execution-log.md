@@ -105,3 +105,84 @@ Le deploiement public ne peut pas etre termine automatiquement sans :
 - creation/connexion repository GitHub ;
 - action GoDaddy pour nameservers ;
 - confirmation fondateur avant publication finale.
+
+---
+
+## Tentative d'execution Cloudflare Pages - 2026-05-24
+
+### Verification locale
+
+- GitHub remote : `https://github.com/ghmadiamba-ux/drivenergy-drc.git`
+- Branche : `master`
+- Dernier commit local/pousse : `b65af26 Prepare DrivEnergy DRC website for public deployment`
+- Build local : reussi avec `npm.cmd run build`
+- Output : `web/drivenergy-project-page/dist`
+- Hero approuve present dans build : `hero-drc-president-fauna-flora-industrial-L_-u6pV2.png`
+- Image process presente dans build : `hero-industrial-D_2UCkLi.png`
+- Contenu francais detecte dans le bundle
+- Aucun chemin local public critique detecte dans les assets generes
+
+### GitHub
+
+- Repository GitHub confirme : `https://github.com/ghmadiamba-ux/drivenergy-drc.git`
+- Remote local : `origin`
+- Branche suivie : `origin/master`
+- Push site initial : deja effectue
+
+### Cloudflare access
+
+- `wrangler` global : non detecte
+- `CLOUDFLARE_API_TOKEN` : non defini
+- Tentative `npx.cmd wrangler whoami` : timeout, probablement attente installation/reseau/login
+- Projet Cloudflare Pages : non cree depuis Codex
+- URL temporaire `*.pages.dev` : non disponible
+
+### Parametres a entrer dans Cloudflare Pages
+
+- Project name : `drivenergy-drc`
+- GitHub repo : `ghmadiamba-ux/drivenergy-drc`
+- Production branch : `master`
+- Framework preset : `Vite`
+- Root directory : `web/drivenergy-project-page`
+- Build command : `npm run build`
+- Build output directory : `dist`
+
+### Custom domain
+
+- `driv-energy.com` : a ajouter apres validation de l'URL temporaire Pages
+- `www.driv-energy.com` : a ajouter apres validation de l'URL temporaire Pages
+- Domaine primaire recommande : `https://driv-energy.com`
+- Redirection recommandee : `www` vers apex
+
+### Nameservers Cloudflare
+
+- Non disponibles.
+- Raison : Cloudflare doit d'abord ajouter la zone `driv-energy.com` et fournir les deux nameservers reels.
+- Ne pas inventer les nameservers.
+
+### Action fondateur requise
+
+1. Ouvrir Cloudflare Dashboard.
+2. Workers & Pages > Pages > Create application.
+3. Connect to Git.
+4. Autoriser GitHub si demande.
+5. Selectionner `ghmadiamba-ux/drivenergy-drc`.
+6. Entrer les settings Cloudflare Pages ci-dessus.
+7. Lancer le premier deploiement.
+8. Copier l'URL temporaire `*.pages.dev`.
+9. Apres validation de cette URL, ajouter les custom domains.
+10. Ajouter `driv-energy.com` comme zone Cloudflare si demande.
+11. Copier les deux nameservers Cloudflare reels.
+12. Dans GoDaddy, remplacer les nameservers du domaine par les deux nameservers Cloudflare.
+
+### Public URL status
+
+- `https://driv-energy.com` : non connecte
+- `https://www.driv-energy.com` : non connecte
+- DNS propagation : non demarree
+- HTTPS : en attente de connexion domaine
+
+### Email
+
+- Le site conserve `contact@drivenergy.cd` comme placeholder.
+- Ne pas modifier avant creation et test de `contact@driv-energy.com` ou `partenariats@driv-energy.com`.
