@@ -54,7 +54,7 @@ Les termes sensibles apparaissent uniquement comme exclusions ou prudence, pas c
 - [x] `dist/index.html` present.
 - [x] Assets locaux presents.
 - [x] Build final passe le 2026-05-24.
-- [ ] Preview public temporaire valide.
+- [x] Preview public temporaire valide : `https://drivenergy-drc.pages.dev/`.
 - [x] Domaine choisi et achete : `driv-energy.com`.
 - [ ] DNS configure.
 - [ ] HTTPS actif.

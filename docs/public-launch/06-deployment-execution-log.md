@@ -186,3 +186,79 @@ Le deploiement public ne peut pas etre termine automatiquement sans :
 
 - Le site conserve `contact@drivenergy.cd` comme placeholder.
 - Ne pas modifier avant creation et test de `contact@driv-energy.com` ou `partenariats@driv-energy.com`.
+
+---
+
+## Verification Pages URL et DNS custom domain - 2026-05-24
+
+### Temporary Pages URL
+
+- URL : `https://drivenergy-drc.pages.dev/`
+- Statut visuel : charge correctement dans navigateur headless.
+- Page : en francais.
+- Hero : image approuvee visible.
+- Assets : CSS/JS/images charges dans le rendu navigateur.
+- Verification HTTP par PowerShell/curl local : non concluante dans l'environnement Codex local, mais le rendu navigateur public a ete capture et valide.
+
+### Custom domain status
+
+- `driv-energy.com` : non connecte a Cloudflare Pages.
+- `www.driv-energy.com` : non connecte a Cloudflare Pages.
+
+### DNS observe
+
+Resolution DNS locale actuelle :
+
+| Host | Type | Valeur observee | Interpretation |
+|---|---|---|---|
+| `driv-energy.com` | `A` | `13.248.243.5` | IP GoDaddy/parking probable |
+| `driv-energy.com` | `A` | `76.223.105.230` | IP GoDaddy/parking probable |
+| `www.driv-energy.com` | `CNAME` | `driv-energy.com` | `www` pointe encore vers apex GoDaddy |
+
+Ces DNS ne pointent pas encore vers Cloudflare Pages.
+
+### Action Cloudflare requise
+
+Dans Cloudflare Dashboard :
+
+1. Ouvrir Workers & Pages.
+2. Ouvrir le projet `drivenergy-drc`.
+3. Aller dans Custom domains.
+4. Cliquer Set up a custom domain.
+5. Ajouter `driv-energy.com`.
+6. Ajouter `www.driv-energy.com`.
+7. Si Cloudflare demande d'ajouter `driv-energy.com` comme zone, suivre le wizard.
+8. Copier les deux nameservers Cloudflare reels.
+
+### Action GoDaddy requise
+
+Dans GoDaddy :
+
+1. Domain Portfolio.
+2. `driv-energy.com`.
+3. DNS / Nameservers.
+4. Change Nameservers.
+5. Custom Nameservers.
+6. Coller les deux nameservers Cloudflare reels.
+7. Sauvegarder.
+
+### Nameservers Cloudflare
+
+- Non disponibles dans Codex.
+- Ne pas inventer.
+- A copier depuis le dashboard Cloudflare apres ajout de la zone.
+
+### DNS records attendus apres connexion
+
+- Cloudflare Pages doit fournir ou creer les enregistrements exacts.
+- Ne pas remplacer par des valeurs devinees.
+- Logique attendue :
+  - apex `driv-energy.com` connecte au projet Pages ;
+  - `www.driv-energy.com` connecte au projet Pages ;
+  - redirection recommandee : `www` vers apex.
+
+### HTTPS / public URLs
+
+- `https://driv-energy.com` : non actif pour DrivEnergy.
+- `https://www.driv-energy.com` : non actif pour DrivEnergy.
+- `https://drivenergy-drc.pages.dev/` : actif comme URL temporaire.

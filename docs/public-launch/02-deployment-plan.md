@@ -14,6 +14,10 @@ Registrar : GoDaddy.
 
 Statut execution : pret pour connexion Cloudflare Pages. Aucun deploiement public n'a ete effectue depuis Codex, car aucun remote GitHub ni token Cloudflare n'est disponible localement.
 
+URL temporaire Cloudflare Pages confirmee :
+
+`https://drivenergy-drc.pages.dev/`
+
 ## Recommandation
 
 Option recommandee : Cloudflare Pages.
@@ -49,7 +53,7 @@ Alternative simple : Netlify.
    - Build output directory : `dist`
    - Root directory si monorepo : `web/drivenergy-project-page`
 6. Lancer un premier deploiement de test sur `*.pages.dev`.
-7. Verifier le rendu public.
+7. Verifier le rendu public. Statut actuel : `https://drivenergy-drc.pages.dev/` confirme visuellement.
 8. Ajouter `driv-energy.com` comme custom domain dans Cloudflare Pages.
 9. Ajouter aussi `www.driv-energy.com` comme custom domain.
 10. Configurer les DNS chez GoDaddy ou transferer la zone DNS vers Cloudflare.
