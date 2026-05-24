@@ -1,0 +1,51 @@
+# Dependencies
+node_modules/
+**/node_modules/
+
+# Build outputs
+dist/
+**/dist/
+build/
+**/build/
+
+# Logs and local runtime output
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+preview.out.log
+preview.err.log
+
+# Environment and secrets
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.p12
+*.pfx
+
+# Local caches and tool state
+.cache/
+**/.cache/
+.vite/
+**/.vite/
+.turbo/
+.next/
+.nuxt/
+.vercel/
+.wrangler/
+
+# OS/editor files
+.DS_Store
+Thumbs.db
+desktop.ini
+.idea/
+.vscode/
+
+# Temporary QA artifacts
+qa-screenshots/
+**/qa-screenshots/
+tmp/
+temp/
