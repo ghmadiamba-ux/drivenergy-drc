@@ -31,3 +31,16 @@ Date : 2026-05-28
 - Phase 10 : protocole et rapport test client.
 - Phase 12 : note Go/No-Go scale-up.
 
+## Dépendance critique client industriel
+
+La validation client industriel / compatibilité brûleur doit être traitée comme un gate bloquant avant RFQ final, FPI final et tout pilote commercial.
+
+Exigences minimales :
+
+- identifier au moins un client thermique testable ;
+- vérifier son combustible actuel et son équipement ;
+- définir les critères qualité fuel attendus ;
+- produire une fiche technique huile + MSDS/FDS ;
+- réaliser une analyse laboratoire ;
+- préparer un test brûleur/chaudière à petit volume ;
+- conclure Go/No-Go sur compatibilité, modifications requises et prix acceptable.
